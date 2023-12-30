@@ -993,8 +993,6 @@ process.on("SIGINT", async () => {
   await finishUp();
 });
 
-// let periodInterval;
-
 const checkNFTSales = async () => {
   try {
     const url = `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`;
@@ -1006,22 +1004,6 @@ const checkNFTSales = async () => {
       toBlock: "latest",
     };
     const transactions = await provider.getLogs(filter);
-
-    /* const resetColor = "\x1b[0m";
-    const greenColor = "\x1b[32m";
-    const addPeriod = () => process.stdout.write(".");
-
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
-    process.stdout.write(
-      `${resetColor}${greenColor}[${blockNumber}] ${resetColor}Checking for MYSTCL sales.`,
-    );
-
-    if (periodInterval) {
-      clearInterval(periodInterval);
-    }
-
-    periodInterval = setInterval(addPeriod, 2800); */
 
     console.log(`[${blockNumber}] Checking for MYSTCL sales.`);
 
@@ -1065,8 +1047,6 @@ const checkNFTSales = async () => {
               await newSale.save();
             }
             await sendMessageToDiscord(message);
-            /* process.stdout.clearLine();
-            process.stdout.cursorTo(0); */
             console.log(`Sale found @ ${message.tx}`);
           }
         }
@@ -1117,7 +1097,7 @@ const sendMessageToDiscord = async (message) => {
       .setImage(`https://mystcl.xyz/assets/images/mystcls/${message.id}.png`)
       .setTimestamp()
       .setFooter({
-        text: "Sales Bot By KingSimpa (Based Fellas)",
+        text: "Bot By KingSimpa (Based Fellas)",
         iconURL: "https://github.com/KingSimpa69",
       });
     await channel.send({ embeds: [Embed] });
