@@ -2,7 +2,7 @@
 // Check out Based Fellas here: https://opensea.io/collection/based-fellas
 
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, './.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const ethers = require("ethers");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
@@ -13,12 +13,17 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 
+console.log('this')
+console.log(process.env.DISCORD_TOKEN)
+
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const MYSTCL_ADDY = process.env.MYSTCL_ADDY;
 const ABI = JSON.parse(process.env.ABI);
 const MONGODB_URI = process.env.MONGODB_URI;
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID;
+
+console.log(process.env.DISCORD_TOKEN)
 
 const salesSchema = new Schema({
   id: Number,
