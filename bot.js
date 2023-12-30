@@ -1,6 +1,8 @@
 // All credits for the production of this bot goes to KingSimpa, lead developer of Based Fellas (https://github.com/KingSimpa69).
 // Check out Based Fellas here: https://opensea.io/collection/based-fellas
 
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const ethers = require("ethers");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
@@ -10,14 +12,13 @@ const {
   GatewayIntentBits,
   EmbedBuilder,
 } = require("discord.js");
-const {
-  ALCHEMY_API_KEY,
-  MYSTCL_ADDY,
-  ABI,
-  MONGODB_URI,
-  DISCORD_TOKEN,
-  DISCORD_CHANNEL_ID,
-} = require("./settings.json");
+
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
+const MYSTCL_ADDY = process.env.MYSTCL_ADDY;
+const ABI = JSON.parse(process.env.ABI);
+const MONGODB_URI = process.env.MONGODB_URI;
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID;
 
 const salesSchema = new Schema({
   id: Number,
