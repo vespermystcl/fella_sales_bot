@@ -1,6 +1,6 @@
 #!/bin/bash
 
-heroku ps:scale web=0 -a mystclsalesbot
+heroku ps:scale worker=0 -a mystclsalesbot
 
 ## Stop
 # ./stop.sh
