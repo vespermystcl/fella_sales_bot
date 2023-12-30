@@ -13,17 +13,12 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 
-console.log('this')
-console.log(process.env.DISCORD_TOKEN)
-
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const MYSTCL_ADDY = process.env.MYSTCL_ADDY;
 const ABI = JSON.parse(process.env.ABI);
 const MONGODB_URI = process.env.MONGODB_URI;
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID;
-
-console.log(process.env.DISCORD_TOKEN)
 
 const salesSchema = new Schema({
   id: Number,
@@ -77,7 +72,7 @@ const checkNFTSales = async () => {
     };
     const transactions = await provider.getLogs(filter);
 
-    const resetColor = "\x1b[0m";
+    /* const resetColor = "\x1b[0m";
     const greenColor = "\x1b[32m";
     const addPeriod = () => process.stdout.write(".");
 
@@ -91,7 +86,9 @@ const checkNFTSales = async () => {
       clearInterval(periodInterval);
     }
 
-    periodInterval = setInterval(addPeriod, 2800);
+    periodInterval = setInterval(addPeriod, 2800); */
+
+    console.log(`[${blockNumber}] Checking for MYSTCL sales.`);
 
     for (const log of transactions) {
       try {
@@ -133,8 +130,8 @@ const checkNFTSales = async () => {
               await newSale.save();
             }
             await sendMessageToDiscord(message);
-            process.stdout.clearLine();
-            process.stdout.cursorTo(0);
+            /* process.stdout.clearLine();
+            process.stdout.cursorTo(0); */
             console.log(`Sale found @ ${message.tx}`);
           }
         }
