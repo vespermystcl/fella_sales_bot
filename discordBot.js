@@ -1,3 +1,6 @@
+// All credits for the production of this bot goes to KingSimpa, lead developer of Based Fellas (https://github.com/KingSimpa69).
+// Check out Based Fellas here: https://opensea.io/collection/based-fellas
+
 const ethers = require("ethers");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
@@ -9,7 +12,7 @@ const {
 } = require("discord.js");
 const {
   ALCHEMY_API_KEY,
-  FELLA_ADDY,
+  MYSTCL_ADDY,
   ABI,
   MONGODB_URI,
   DISCORD_TOKEN,
@@ -18,7 +21,7 @@ const {
 
 const salesSchema = new Schema({
   id: Number,
-  fella: String,
+  mystcl: String,
   from: String,
   to: String,
   tx: String,
@@ -26,7 +29,7 @@ const salesSchema = new Schema({
   logged: { type: Boolean, default: false },
 });
 
-salesSchema.index({ tx: 1, fella: 1 }, { unique: true });
+salesSchema.index({ tx: 1, mystcl: 1 }, { unique: true });
 
 const Sales = mongoose.model("sales", salesSchema);
 
@@ -58,11 +61,11 @@ let periodInterval;
 
 const checkNFTSales = async () => {
   try {
-    const url = `https://mainnet.base.org`;
+    const url = `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`;
     const provider = new ethers.JsonRpcProvider(url);
     const blockNumber = await provider.getBlockNumber();
     const filter = {
-      address: FELLA_ADDY,
+      address: MYSTCL_ADDY,
       fromBlock: blockNumber - 1500,
       toBlock: "latest",
     };
@@ -75,7 +78,7 @@ const checkNFTSales = async () => {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
     process.stdout.write(
-      `${resetColor}${greenColor}[${blockNumber}] ${resetColor}Checking for Fella sales.`,
+      `${resetColor}${greenColor}[${blockNumber}] ${resetColor}Checking for MYSTCL sales.`,
     );
 
     if (periodInterval) {
@@ -87,7 +90,7 @@ const checkNFTSales = async () => {
     for (const log of transactions) {
       try {
         const { transactionHash, blockNumber } = log;
-        const contract = new ethers.Contract(FELLA_ADDY, ABI, provider);
+        const contract = new ethers.Contract(MYSTCL_ADDY, ABI, provider);
         const event = contract.interface.parseLog(log);
         const { value } = await provider.getTransaction(transactionHash);
         const price = await gweiToEth(value);
@@ -97,7 +100,7 @@ const checkNFTSales = async () => {
 
           const existingSale = await Sales.findOne({
             tx: transactionHash,
-            fella: tokenId.toString(),
+            mystcl: tokenId.toString(),
           });
 
           if (!existingSale || !existingSale.logged) {
@@ -114,7 +117,7 @@ const checkNFTSales = async () => {
               await existingSale.save();
             } else {
               const newSale = new Sales({
-                fella: tokenId.toString(),
+                mystcl: tokenId.toString(),
                 from,
                 to,
                 tx: transactionHash,
@@ -143,15 +146,15 @@ const sendMessageToDiscord = async (message) => {
   if (channel) {
     const Embed = new EmbedBuilder()
       .setColor(0x0099ff)
-      .setTitle(`Fella #${message.id}`)
-      .setURL(`https://basedfellas.io/collection/${message.id}`)
+      .setTitle(`MYSTCL #${message.id}`)
+      .setURL(`https://opensea.io/assets/base/${MYSTCL_ADDY}/${message.id}`)
       .setAuthor({
-        name: "Fella Sales Bot",
-        iconURL: "https://basedfellas.io/images/1.png",
-        url: "https://basedfellas.io",
+        name: "MYSTCL Sales Bot",
+        iconURL: "https://mystcl.xyz/assets/images/mystcls/107.png",
+        url: "https://mystcl.xyz",
       })
       .setDescription(
-        `Fella #${message.id} has just been sold for ${message.price} ETH`,
+        `MYSTCL #${message.id} has just been sold for ${message.price} ETH`,
       )
       .addFields(
         {
@@ -173,10 +176,10 @@ const sendMessageToDiscord = async (message) => {
           })`,
         },
       )
-      .setImage(`https://basedfellas.io/images/fellas/${message.id}.png`)
+      .setImage(`https://mystcl.xyz/assets/images/mystcls/${message.id}.png`)
       .setTimestamp()
       .setFooter({
-        text: "Fella Sales Bot By KingSimpa",
+        text: "Sales Bot By KingSimpa (Based Fellas)",
         iconURL: "https://github.com/KingSimpa69",
       });
     await channel.send({ embeds: [Embed] });
