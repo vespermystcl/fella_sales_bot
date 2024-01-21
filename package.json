@@ -2,7 +2,7 @@
   "name": "nft-sale-scanner-bot",
   "version": "1.2.0",
   "description": "NFT sale scanner bot. Queries recent onchain transactions for Fella sales and shoots them to discord.",
-  "main": "discordBot.js",
+  "main": "bot.js",
   "author": "KingSimpa69",
   "license": "MIT",
   "dependencies": {
