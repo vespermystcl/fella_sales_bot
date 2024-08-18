@@ -1068,8 +1068,8 @@ const sendMessageToDiscord = async (message) => {
       .setURL(`https://opensea.io/assets/base/${MYSTCL_ADDY}/${message.id}`)
       .setAuthor({
         name: "MYSTCL Sales Bot",
-        iconURL: "https://mystcl.xyz/assets/images/mystcls/107.png",
-        url: "https://mystcl.xyz",
+        iconURL: "https://mystcl.com/assets/images/mystcls/107.png",
+        url: "https://mystcl.com",
       })
       .setDescription(
         `MYSTCL #${message.id} has just been sold for ${message.price} ETH`,
@@ -1094,7 +1094,7 @@ const sendMessageToDiscord = async (message) => {
           })`,
         },
       )
-      .setImage(`https://mystcl.xyz/assets/images/mystcls/${message.id}.png`)
+      .setImage(`https://mystcl.com/assets/images/mystcls/${message.id}.png`)
       .setTimestamp()
       .setFooter({
         text: "Original Bot Crafted by KingSimpa (Based Fellas)",
